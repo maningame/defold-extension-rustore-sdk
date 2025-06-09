@@ -47,3 +47,5 @@ shared_state = 1
 gravity_y = -1000.0
 scale = 0.01
 
+[library]
+include_dirs = extension_rustore_billing,extension_rustore_review,extension_rustore_core

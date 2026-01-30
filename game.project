@@ -1,6 +1,5 @@
 [project]
 title = pay_example
-bundle_resources = /res
 
 [bootstrap]
 main_collection = /main/main.collectionc
@@ -40,7 +39,6 @@ app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
 minimum_sdk_version = 24
 package = ru.rustore.pay
-manifest = /extension_rustore_pay/manifests/android/ExtendedAndroidManifest.xml
 
 [script]
 shared_state = 1

@@ -15,7 +15,6 @@
         {{/has-icons?}}
         android:extractNativeLibs="{{android.extract_native_libs}}"
         android:label="{{project.title}}"
-        tools:replace="android:label"
         android:hasCode="true"
         android:name="android.support.multidex.MultiDexApplication"
         android:enableOnBackInvokedCallback="true"

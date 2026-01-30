@@ -1,0 +1,12 @@
+UTILS_ACTIONS_GAMEOBJECT = "utils_actions"
+UTILS_ACTIONS_RECEIVER = UTILS_ACTIONS_GAMEOBJECT.."#utils_actions"
+
+UTILS_ACTIONS_GET_USER_AUTHORIZATION_STATUS = "get_user_authorization_status"
+UTILS_ACTIONS_GET_PURCHASE_AVAILABILITY = "get_purchase_availability"
+UTILS_ACTIONS_IS_RUSTORE_INSTALLED = "is_rustore_installed"
+UTILS_ACTIONS_OPEN_RUSTORE_DOWNLOAD_INSTRUCTION = "open_rustore_download_instruction"
+UTILS_ACTIONS_OPEN_RUSTORE = "open_rustore"
+UTILS_ACTIONS_OPEN_RUSTORE_AUTHORIZATION = "open_rustore_authorization"
+
+UTILS_ACTIONS_SET_RECEIVER_MESSAGE_ID = "utils_actions_set_receiver_message_id"
+UTILS_ACTIONS_BUTTON_PRESSED = "utils_actions_button_pressed"

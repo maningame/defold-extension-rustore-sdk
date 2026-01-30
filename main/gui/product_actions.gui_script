@@ -1,6 +1,8 @@
 require("main.gui.product_actions_consts")
 
 local _receiver = nil
+local _sdk_theme_index = 0
+local _sdk_theme = { "LIGHT", "DARK" }
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
@@ -10,14 +12,24 @@ end
 local function _input_handler(button_name, action)
 	local button = gui.get_node(button_name)
 	if gui.pick_node(button, action.x, action.y) then
-		msg.post(_receiver, PRODUCT_ACTIONS_BUTTON_PRESSED, { button = button_name })
+		if button_name == PRODUCT_ACTIONS_SDK_THEME then
+			_sdk_theme_index = 1 - _sdk_theme_index
+			local text = gui.get_node("sdk_theme_text")
+			local value = _sdk_theme[_sdk_theme_index + 1]
+			gui.set_text(text, value)
+		end
+		
+		msg.post(_receiver, PRODUCT_ACTIONS_BUTTON_PRESSED, { button = button_name, payload = _sdk_theme[_sdk_theme_index + 1] })
 	end
 end
 
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		_input_handler(PRODUCT_ACTIONS_BUY_BUTTON, action)
+		_input_handler(PRODUCT_ACTIONS_PREFERRED_ONE_STEP, action)
+		_input_handler(PRODUCT_ACTIONS_PREFERRED_TWO_STEP, action)
+		_input_handler(PRODUCT_ACTIONS_PURCHASE_TWO_STEP, action)
+		_input_handler(PRODUCT_ACTIONS_SDK_THEME, action)
 	end
 end
 
@@ -25,13 +37,5 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash(PRODUCT_ACTIONS_SET_RECEIVER_MESSAGE_ID) then
 		_receiver = message.receiver
-	end
-
-	if message_id == hash(PRODUCT_ACTIONS_SET_ENABLED_MESSAGE_ID) then
-		if message.enabled then
-			msg.post(".", "enable")
-		else
-			msg.post(".", "disable")
-		end
 	end
 end

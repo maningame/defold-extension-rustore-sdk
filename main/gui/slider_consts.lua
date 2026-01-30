@@ -1,6 +1,8 @@
-SLIDER_RECEIVER = "slider#slider"
+SLIDER_GAMEOBJECT = "slider"
+SLIDER_RECEIVER = SLIDER_GAMEOBJECT.."#slider"
 SLIDER_BUTTON_LEFT = "left"
 SLIDER_BUTTON_RIGHT = "right"
+SLIDER_BUTTON_INFO = "info"
 
 SLIDER_SET_RECEIVER_MESSAGE_ID = "slider_set_receiver_message_id"
 SLIDER_SET_TITLE_MESSAGE_ID = "slider_set_title_message_id"

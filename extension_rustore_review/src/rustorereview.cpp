@@ -6,8 +6,21 @@
 
 #include <dmsdk/sdk.h>
 #include <dmsdk/dlib/android.h>
+#include "AndroidJavaObject.h"
+
+using namespace RuStoreSDK;
 
 #define METRIC_TYPE "defold"
+
+static void GetJavaReviewInstance(JNIEnv* env, AndroidJavaObject* instance)
+{
+    jclass cls = dmAndroid::LoadClass(env, "ru.rustore.defold.review.RuStoreReview");
+    jfieldID instanceField = env->GetStaticFieldID(cls, "INSTANCE", "Lru/rustore/defold/review/RuStoreReview;");
+    jobject obj = env->GetStaticObjectField(cls, instanceField);
+
+    instance->cls = cls;
+    instance->obj = obj;
+}
 
 static int Init(lua_State* L)
 {
@@ -16,17 +29,16 @@ static int Init(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    jclass cls = dmAndroid::LoadClass(env, "ru.rustore.defold.review.RuStoreReview");
-    jmethodID method = env->GetStaticMethodID(cls, "init", "(Landroid/app/Activity;Ljava/lang/String;)V");
-
     const char* metricType = METRIC_TYPE;
     jstring jmetricType = env->NewStringUTF(metricType);
 
-    env->CallStaticVoidMethod(cls, method, dmGraphics::GetNativeAndroidActivity(), jmetricType);
+    AndroidJavaObject instance;
+    GetJavaReviewInstance(env, &instance);
+    jmethodID method = env->GetMethodID(instance.cls, "init", "(Landroid/app/Activity;Ljava/lang/String;)V");
+    env->CallVoidMethod(instance.obj, method, dmGraphics::GetNativeAndroidActivity(), jmetricType);
+    instance.Free(env);
 
     env->DeleteLocalRef(jmetricType);
-
-    thread.Detach();
     
     return 0;
 }
@@ -38,12 +50,11 @@ static int RequestReviewFlow(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    jclass cls = dmAndroid::LoadClass(env, "ru.rustore.defold.review.RuStoreReview");
-    jmethodID method = env->GetStaticMethodID(cls, "requestReviewFlow", "()V");
-
-    env->CallStaticVoidMethod(cls, method);
-
-    thread.Detach();
+    AndroidJavaObject instance;
+    GetJavaReviewInstance(env, &instance);
+    jmethodID method = env->GetMethodID(instance.cls, "requestReviewFlow", "()V");
+    env->CallVoidMethod(instance.obj, method);
+    instance.Free(env);
     
     return 0;
 }
@@ -55,12 +66,11 @@ static int LaunchReviewFlow(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    jclass cls = dmAndroid::LoadClass(env, "ru.rustore.defold.review.RuStoreReview");
-    jmethodID method = env->GetStaticMethodID(cls, "launchReviewFlow", "()V");
-
-    env->CallStaticVoidMethod(cls, method);
-
-    thread.Detach();
+    AndroidJavaObject instance;
+    GetJavaReviewInstance(env, &instance);
+    jmethodID method = env->GetMethodID(instance.cls, "launchReviewFlow", "()V");
+    env->CallVoidMethod(instance.obj, method);
+    instance.Free(env);
 
     return 0;
 }

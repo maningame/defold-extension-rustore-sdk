@@ -1,0 +1,230 @@
+script: "/main/gui/utils_actions.gui_script"
+fonts {
+  name: "text48"
+  font: "/main/gui/fonts/text48.font"
+}
+nodes {
+  position {
+    x: 320.0
+    y: 920.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "get_user_authorization_status"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Get user authorization status\n"
+  ""
+  font: "text48"
+  id: "get_user_authorization_status_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "get_user_authorization_status"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 800.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "get_purchase_availability"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Get purchase availability"
+  font: "text48"
+  id: "get_purchase_availability_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "get_purchase_availability"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 680.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "is_rustore_installed"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Is RuStore installed"
+  font: "text48"
+  id: "is_rustore_installed_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "is_rustore_installed"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 560.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "open_rustore_download_instruction"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Open RuStore download instruction"
+  font: "text48"
+  id: "open_rustore_download_instruction_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "open_rustore_download_instruction"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 440.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "open_rustore"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Open RuStore"
+  font: "text48"
+  id: "open_rustore_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "open_rustore"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 320.0
+  }
+  size {
+    x: 450.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "open_rustore_authorization"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Open RuStore authorization"
+  font: "text48"
+  id: "open_rustore_authorization_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "open_rustore_authorization"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

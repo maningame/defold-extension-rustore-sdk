@@ -1,0 +1,34 @@
+require("main.gui.utils_actions_consts")
+
+local _receiver = nil
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+
+local function _input_handler(button_name, action)
+	local button = gui.get_node(button_name)
+	if gui.pick_node(button, action.x, action.y) then
+		msg.post(_receiver, UTILS_ACTIONS_BUTTON_PRESSED, { button = button_name })
+	end
+end
+
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		_input_handler(UTILS_ACTIONS_GET_USER_AUTHORIZATION_STATUS, action)
+		_input_handler(UTILS_ACTIONS_GET_PURCHASE_AVAILABILITY, action)
+		_input_handler(UTILS_ACTIONS_IS_RUSTORE_INSTALLED, action)
+		_input_handler(UTILS_ACTIONS_OPEN_RUSTORE_DOWNLOAD_INSTRUCTION, action)
+		_input_handler(UTILS_ACTIONS_OPEN_RUSTORE, action)
+		_input_handler(UTILS_ACTIONS_OPEN_RUSTORE_AUTHORIZATION, action)
+	end
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash(UTILS_ACTIONS_SET_RECEIVER_MESSAGE_ID) then
+		_receiver = message.receiver
+	end
+end

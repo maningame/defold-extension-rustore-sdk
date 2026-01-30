@@ -1,5 +1,6 @@
-TOP_MENU_RECEIVER = "top_menu#top_menu"
-TOP_MENU_AVAILABILITY = "availability"
+TOP_MENU_GAMEOBJECT = "top_menu"
+TOP_MENU_RECEIVER = TOP_MENU_GAMEOBJECT.."#top_menu"
+TOP_MENU_UTILS = "utils"
 TOP_MENU_PRODUCTS = "products"
 TOP_MENU_PURCHASES = "purchases"
 

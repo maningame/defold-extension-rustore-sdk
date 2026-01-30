@@ -17,9 +17,10 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		_input_handler(PURCHASE_ACTIONS_CONFIRM_BUTTON, action)
-		_input_handler(PURCHASE_ACTIONS_DELETE_BUTTON, action)
-		_input_handler(PURCHASE_ACTIONS_INFO_BUTTON, action)
+		_input_handler(PURCHASE_ACTIONS_CONFIRM_TWO_STEP_PURCHASE, action)
+		_input_handler(PURCHASE_ACTIONS_CANCEL_TWO_STEP_PURCHASE, action)
+		_input_handler(PURCHASE_ACTIONS_GET_PURCHASE, action)
+		_input_handler(PURCHASE_ACTIONS_PAID_ONLY, action)
 	end
 end
 
@@ -27,13 +28,5 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash(PURCHASE_ACTIONS_SET_RECEIVER_MESSAGE_ID) then
 		_receiver = message.receiver
-	end
-
-	if message_id == hash(PURCHASE_ACTIONS_SET_ENABLED_MESSAGE_ID) then
-		if message.enabled then
-			msg.post(".", "enable")
-		else
-			msg.post(".", "disable")
-		end
 	end
 end

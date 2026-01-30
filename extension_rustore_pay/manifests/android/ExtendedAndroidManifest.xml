@@ -13,7 +13,10 @@
         {{#has-icons?}}
         android:icon="@drawable/icon"
         {{/has-icons?}}
-        android:label="{{project.title}}" android:hasCode="true"
+        android:extractNativeLibs="{{android.extract_native_libs}}"
+        android:label="{{project.title}}"
+        tools:replace="android:label"
+        android:hasCode="true"
         android:name="android.support.multidex.MultiDexApplication"
         android:enableOnBackInvokedCallback="true"
         android:debuggable="{{android.debuggable}}">
@@ -27,25 +30,39 @@
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:screenOrientation="{{orientation-support}}"
                 android:exported="true"
-                android:launchMode="singleInstance">
+                android:launchMode="singleTask">
             <meta-data android:name="android.app.lib_name"
                     android:value="{{exe-name}}" />
+        </activity>
+
+        <!-- Deeplink activity -->
+        <activity android:name="ru.rustore.defold.pay.RuStoreIntentFilterActivity"
+                  android:theme="@android:style/Theme.NoDisplay"
+                  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name="ru.rustore.defold.billing.RuStoreIntentFilterActivity"
-                android:exported="true"
-                android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Set your appscheme -->
-                <data android:scheme="example" />
+                <data android:scheme="@string/rustore_PayClientSettings_deeplinkScheme" />
             </intent-filter>
         </activity>
+
+        <!-- Deeplink scheme -->
+        <meta-data
+            android:name="sdk_pay_scheme_value"
+            android:value="@string/rustore_PayClientSettings_deeplinkScheme" />
+
+        <!-- Initializing sdk -->
+        <meta-data
+            android:name="console_app_id_value"
+            android:value="@string/rustore_PayClientSettings_consoleApplicationId" />
+        <meta-data
+            android:name="internal_config_key"
+            android:value="@string/rustore_PayClientSettings_internalConfigKey" />
 
     </application>
 

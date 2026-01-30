@@ -3,141 +3,151 @@ fonts {
   name: "text48"
   font: "/main/gui/fonts/text48.font"
 }
-textures {
-  name: "sprites"
-  texture: "/main/gui/sprites/sprites.atlas"
-}
-background_color {
-  x: 0.0
-  y: 0.0
-  z: 0.0
-  w: 0.0
-}
 nodes {
   position {
     x: 320.0
     y: 400.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
   }
   size {
-    x: 190.0
-    y: 80.0
-    z: 0.0
-    w: 1.0
+    x: 300.0
+    y: 100.0
   }
   color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
+    x: 0.047
+    y: 0.459
+    z: 0.98
   }
   type: TYPE_BOX
-  blend_mode: BLEND_MODE_ALPHA
-  texture: "sprites/button_orange_190_80"
-  id: "buy_button"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  adjust_mode: ADJUST_MODE_FIT
-  layer: ""
+  id: "preferred_one_step"
+  yanchor: YANCHOR_TOP
   inherit_alpha: true
-  slice9 {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 0.0
-  }
-  clipping_mode: CLIPPING_MODE_NONE
-  clipping_visible: true
-  clipping_inverted: false
-  alpha: 1.0
-  template_node_child: false
-  size_mode: SIZE_MODE_MANUAL
-  custom_type: 0
-  enabled: true
-  visible: true
-  material: ""
+  size_mode: SIZE_MODE_AUTO
 }
 nodes {
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
   scale {
     x: 0.5
     y: 0.5
-    z: 1.0
-    w: 1.0
   }
   size {
-    x: 380.0
-    y: 160.0
-    z: 0.0
-    w: 1.0
-  }
-  color {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
+    x: 200.0
+    y: 100.0
   }
   type: TYPE_TEXT
-  blend_mode: BLEND_MODE_ALPHA
-  text: "Buy"
+  text: "Preferred one step"
   font: "text48"
-  id: "text"
-  xanchor: XANCHOR_NONE
-  yanchor: YANCHOR_NONE
-  pivot: PIVOT_CENTER
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-    w: 1.0
-  }
-  adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  parent: "buy_button"
-  layer: ""
+  id: "preferred_one_step_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "preferred_one_step"
   inherit_alpha: true
-  alpha: 1.0
-  outline_alpha: 1.0
-  shadow_alpha: 1.0
-  template_node_child: false
-  text_leading: 1.0
-  text_tracking: 0.0
-  custom_type: 0
-  enabled: true
-  visible: true
-  material: ""
+}
+nodes {
+  position {
+    x: 320.0
+    y: 280.0
+  }
+  size {
+    x: 300.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "preferred_two_step"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Preferred two step"
+  font: "text48"
+  id: "preferred_two_step_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "preferred_two_step"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 160.0
+  }
+  size {
+    x: 300.0
+    y: 100.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "purchase_two_step"
+  yanchor: YANCHOR_TOP
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Purchase two step"
+  font: "text48"
+  id: "purchase_two_step_text"
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "purchase_two_step"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 520.0
+    y: 960.0
+  }
+  size {
+    x: 140.0
+    y: 50.0
+  }
+  color {
+    x: 0.047
+    y: 0.459
+    z: 0.98
+  }
+  type: TYPE_BOX
+  id: "sdk_theme"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  scale {
+    x: 0.5
+    y: 0.5
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "LIGHT"
+  font: "text48"
+  id: "sdk_theme_text"
+  parent: "sdk_theme"
+  inherit_alpha: true
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
-max_nodes: 512

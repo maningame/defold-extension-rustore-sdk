@@ -52,4 +52,4 @@ velocity_threshold = 100.0
 scale_mode = stretch
 
 [library]
-include_dirs = extension_rustore_pay,extension_rustore_review,extension_rustore_core
+include_dirs = extension_rustore_pay,extension_rustore_core

@@ -15,6 +15,11 @@ public class RuStoreIntentFilterActivity extends Activity {
         if (savedInstanceState == null) {
             RuStorePay.INSTANCE.proceedIntent(getIntent());
         }
+
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         
         startGameActivity(defoldActivityClassName);
         finish();
@@ -31,7 +36,7 @@ public class RuStoreIntentFilterActivity extends Activity {
         Class<?> gameActivityClass = getActivityClass(gameActivityClassName);
         if (gameActivityClass != null) {
             Intent intent = new Intent(this, gameActivityClass);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
     }

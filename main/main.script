@@ -31,6 +31,11 @@ function init(self)
 	rustorecore.connect("rustore_pay_on_confirm_two_step_purchase_failure", _on_failure_two_param)
 	rustorecore.connect("rustore_pay_on_cancel_two_step_purchase_success", _on_cancel_two_step_purchase_success)
 	rustorecore.connect("rustore_pay_on_cancel_two_step_purchase_failure", _on_failure_two_param)
+	rustorecore.connect("rustore_pay_on_payment_completed", _on_payment_completed)
+	rustorecore.connect("rustore_pay_on_payment_failed", _on_payment_failed)
+	rustorecore.connect("rustore_pay_on_payment_started", _on_payment_started)
+	rustorecore.connect("rustore_pay_on_purchase_cancelled", _on_purchase_cancelled)
+	rustorecore.connect("rustore_pay_on_purchase_created", _on_purchase_created)
 	
 	-- Top menu
 	msg.post(TOP_MENU_RECEIVER, TOP_MENU_SET_RECEIVER_MESSAGE_ID, { receiver = THIS_RECEIVER })
@@ -47,7 +52,7 @@ function init(self)
 	-- Slider
 	msg.post(SLIDER_RECEIVER, SLIDER_SET_RECEIVER_MESSAGE_ID, { receiver = THIS_RECEIVER })
 	msg.post(SLIDER_RECEIVER, SLIDER_SET_TITLE_MESSAGE_ID, { title = "" })
-
+	
 	_update_utils_screen()
 end
 
@@ -220,7 +225,7 @@ function _on_get_products_success(self, channel, value)
 		s_info = s_info.."Description: "..val.description.."\n\n"
 		s_info = s_info.."Amount: "..val.amountLabel.."\n\n"
 		s_info = s_info..val.type
-
+		
 		table.insert(_slider_collection, s_info)
 	end
 
@@ -259,18 +264,18 @@ function _on_get_purchases_success(self, channel, value)
 
 	-- ProductPurchase implements Purchase
 	-- json fields:
-	-- status - string ProductPurchaseStatus
-	-- -- INVOICE_CREATED
-	-- -- CANCELLED
-	-- -- PROCESSING
-	-- -- REJECTED
-	-- -- CONFIRMED
-	-- -- REFUNDED
-	-- -- REFUNDING
-	-- -- EXECUTING
-	-- -- EXPIRED
-	-- -- PAID
-	-- -- REVERSED
+	-- status - string
+	-- -- ProductPurchaseStatus.INVOICE_CREATED
+	-- -- ProductPurchaseStatus.CANCELLED
+	-- -- ProductPurchaseStatus.PROCESSING
+	-- -- ProductPurchaseStatus.REJECTED
+	-- -- ProductPurchaseStatus.CONFIRMED
+	-- -- ProductPurchaseStatus.REFUNDED
+	-- -- ProductPurchaseStatus.REFUNDING
+	-- -- ProductPurchaseStatus.EXECUTING
+	-- -- ProductPurchaseStatus.EXPIRED
+	-- -- ProductPurchaseStatus.PAID
+	-- -- ProductPurchaseStatus.REVERSED
 	-- productId - string
 	-- quantity - number
 	-- productType - string
@@ -280,16 +285,16 @@ function _on_get_purchases_success(self, channel, value)
 
 	-- SubscriptionPurchase implements Purchase
 	-- json fields:
-	-- status - string SubscriptionPurchaseStatus
-	-- -- INVOICE_CREATED
-	-- -- CANCELLED
-	-- -- EXPIRED
-	-- -- PROCESSING
-	-- -- REJECTED
-	-- -- ACTIVE
-	-- -- PAUSED
-	-- -- TERMINATED
-	-- -- CLOSED
+	-- status - string
+	-- -- SubscriptionPurchaseStatus.INVOICE_CREATED
+	-- -- SubscriptionPurchaseStatus.CANCELLED
+	-- -- SubscriptionPurchaseStatus.EXPIRED
+	-- -- SubscriptionPurchaseStatus.PROCESSING
+	-- -- SubscriptionPurchaseStatus.REJECTED
+	-- -- SubscriptionPurchaseStatus.ACTIVE
+	-- -- SubscriptionPurchaseStatus.PAUSED
+	-- -- SubscriptionPurchaseStatus.TERMINATED
+	-- -- SubscriptionPurchaseStatus.CLOSED
 	-- productId - string
 	-- expirationDate - string MMM dd, yyyy h:mm:ss a
 	-- gracePeriodEnabled - boolean
@@ -310,12 +315,20 @@ function _on_get_purchases_success(self, channel, value)
 		end
 			
 		s_info = s_info.."PurchaseId: ".._purchase_id.."\n\n"
-		s_info = s_info.."Description: "..val.description.."\n\n"
+		s_info = s_info.."Description: "..(val.description or "—").."\n\n"
 		s_info = s_info.."Amount: "..val.amountLabel.."\n\n"
-		s_info = s_info.."Quantity: "..val.quantity.."\n\n"
-		s_info = s_info.."Time: "..val.purchaseTime.."\n\n"
+		s_info = s_info.."Quantity: "..(val.quantity and tostring(val.quantity) or "—").."\n\n"
+		s_info = s_info.."Time: "..(val.purchaseTime or "—").."\n\n"
 		s_info = s_info.."Type: "..val.purchaseType.."\n\n"
 		s_info = s_info.."Status: "..val.status
+		
+		if val.expirationDate then
+			s_info = s_info.."\n\nExpires: "..val.expirationDate
+		end
+		
+		if val.productType then
+			s_info = s_info.."\n\nProductType: "..val.productType
+		end
 		
 		table.insert(_slider_collection, s_info)
 	end

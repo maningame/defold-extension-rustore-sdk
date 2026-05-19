@@ -74,10 +74,10 @@ function M.process_message(self, message_id, message, sender)
 		local data = slider.get_displayed_pair().data
 
 		if message.button == PRODUCT_ACTIONS_PREFERRED_ONE_STEP then
-			_purchase(data.productId, "ONE_STEP", message.payload)
+			_purchase(data.productId, RuStorePayEnums.PreferredPurchaseType.ONE_STEP, message.payload)
 
 		elseif message.button == PRODUCT_ACTIONS_PREFERRED_TWO_STEP then
-			_purchase(data.productId, "TWO_STEP", message.payload)
+			_purchase(data.productId, RuStorePayEnums.PreferredPurchaseType.TWO_STEP, message.payload)
 
 		elseif message.button == PRODUCT_ACTIONS_PURCHASE_TWO_STEP then
 			_purchase_two_step(data.productId, message.payload)
@@ -101,8 +101,8 @@ function M.process_message(self, message_id, message, sender)
 
 		elseif message.button == PURCHASE_ACTIONS_PAID_ONLY then
 			local filter = {
-				-- productType = "CONSUMABLE_PRODUCT",
-				purchaseStatus = "PAID" -- PAID, CONFIRMED, ACTIVE, PAUSED
+				-- productType = RuStorePayEnums.ProductType.CONSUMABLE_PRODUCT,
+				purchaseStatus = RuStorePayEnums.ProductPurchaseStatus.PAID -- ProductPurchaseStatus.PAID/CONFIRMED, SubscriptionPurchaseStatus.ACTIVE/PAUSED
 			}
 			_update_purchases_screen(filter)
 		end

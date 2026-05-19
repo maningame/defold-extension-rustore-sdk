@@ -4,6 +4,7 @@
 #define DEBUG false
 
 #include <dmsdk/sdk.h>
+#include "pay_enums.h"
 
 #if defined(DM_PLATFORM_ANDROID)
 
@@ -163,21 +164,35 @@ static int Purchase(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    const char* params = (char*)luaL_checkstring(L, 1);
+    const char* params = luaL_checkstring(L, 1);
     jstring jparams = env->NewStringUTF(params);
 
-    const char* preferredPurchaseType = (char*)luaL_checkstring(L, 2);
+    const char* preferredPurchaseType = luaL_checkstring(L, 2);
     jstring jpreferredPurchaseType = env->NewStringUTF(preferredPurchaseType);
 
     const char* sdkTheme = "";
-    if (lua_gettop(L) >= 3 && !lua_isnil(L, 3))
-        sdkTheme = (char*)luaL_checkstring(L, 3);
+    bool enablePurchaseEventListener = false;
+    
+    int top = lua_gettop(L);
+    bool arg3_is_theme = (top >= 3 && !lua_isnil(L, 3) && lua_type(L, 3) == LUA_TSTRING);
+    bool arg3_is_bool  = (top >= 3 && !lua_isnil(L, 3) && !arg3_is_theme && (lua_type(L, 3) == LUA_TBOOLEAN || lua_type(L, 3) == LUA_TNUMBER));
+    bool arg4_is_bool  = (top >= 4 && !lua_isnil(L, 4) && (lua_type(L, 4) == LUA_TBOOLEAN || lua_type(L, 4) == LUA_TNUMBER));
+    
+    if (arg3_is_theme) sdkTheme = lua_tostring(L, 3);
+    
+    if (arg4_is_bool) {
+        enablePurchaseEventListener = (lua_type(L, 4) == LUA_TBOOLEAN) ? (lua_toboolean(L, 4) != 0) : (lua_tonumber(L, 4) != 0.0);
+    } else if (arg3_is_bool) {
+        enablePurchaseEventListener = (lua_type(L, 3) == LUA_TBOOLEAN) ? (lua_toboolean(L, 3) != 0) : (lua_tonumber(L, 3) != 0.0);
+    }
+    
     jstring jsdkTheme = env->NewStringUTF(sdkTheme);
+    jboolean jenablePurchaseEventListener = (jboolean)enablePurchaseEventListener;
     
     AndroidJavaObject instance;
     GetJavaPayInstance(env, &instance);
-    jmethodID method = env->GetMethodID(instance.cls, "purchase", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-    env->CallVoidMethod(instance.obj, method, jparams, jpreferredPurchaseType, jsdkTheme);
+    jmethodID method = env->GetMethodID(instance.cls, "purchase", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V");
+    env->CallVoidMethod(instance.obj, method, jparams, jpreferredPurchaseType, jsdkTheme, jenablePurchaseEventListener);
     instance.Free(env);
 
     env->DeleteLocalRef(jparams);
@@ -194,18 +209,32 @@ static int PurchaseTwoStep(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    const char* params = (char*)luaL_checkstring(L, 1);
+    const char* params = luaL_checkstring(L, 1);
     jstring jparams = env->NewStringUTF(params);
 
     const char* sdkTheme = "";
-    if (lua_gettop(L) >= 3 && !lua_isnil(L, 3))
-        sdkTheme = (char*)luaL_checkstring(L, 3);
+    bool enablePurchaseEventListener = false;
+
+    int top = lua_gettop(L);
+    bool arg2_is_theme = (top >= 2 && !lua_isnil(L, 2) && lua_type(L, 2) == LUA_TSTRING);
+    bool arg2_is_bool  = (top >= 2 && !lua_isnil(L, 2) && !arg2_is_theme && (lua_type(L, 2) == LUA_TBOOLEAN || lua_type(L, 2) == LUA_TNUMBER));
+    bool arg3_is_bool  = (top >= 3 && !lua_isnil(L, 3) && (lua_type(L, 3) == LUA_TBOOLEAN || lua_type(L, 3) == LUA_TNUMBER));
+
+    if (arg2_is_theme) sdkTheme = lua_tostring(L, 2);
+
+    if (arg3_is_bool) {
+        enablePurchaseEventListener = (lua_type(L, 3) == LUA_TBOOLEAN) ? (lua_toboolean(L, 3) != 0) : (lua_tonumber(L, 3) != 0.0);
+    } else if (arg2_is_bool) {
+        enablePurchaseEventListener = (lua_type(L, 2) == LUA_TBOOLEAN) ? (lua_toboolean(L, 2) != 0) : (lua_tonumber(L, 2) != 0.0);
+    }
+
     jstring jsdkTheme = env->NewStringUTF(sdkTheme);
-    
+    jboolean jenablePurchaseEventListener = (jboolean)enablePurchaseEventListener;
+
     AndroidJavaObject instance;
     GetJavaPayInstance(env, &instance);
-    jmethodID method = env->GetMethodID(instance.cls, "purchaseTwoStep", "(Ljava/lang/String;Ljava/lang/String;)V");
-    env->CallVoidMethod(instance.obj, method, jparams, jsdkTheme);
+    jmethodID method = env->GetMethodID(instance.cls, "purchaseTwoStep", "(Ljava/lang/String;Ljava/lang/String;Z)V");
+    env->CallVoidMethod(instance.obj, method, jparams, jsdkTheme, jenablePurchaseEventListener);
     instance.Free(env);
 
     env->DeleteLocalRef(jparams);
@@ -221,11 +250,15 @@ static int ConfirmTwoStepPurchase(lua_State* L)
     dmAndroid::ThreadAttacher thread;
     JNIEnv* env = thread.GetEnv();
 
-    const char* purchaseId = (char*)luaL_checkstring(L, 1);
-    const char* developerPayload = (char*)luaL_checkstring(L, 2);
+    const char* purchaseId = luaL_checkstring(L, 1);
+    const char* developerPayload = lua_gettop(L) >= 2 && !lua_isnil(L, 2)
+        ? lua_tostring(L, 2)
+        : nullptr;
     
     jstring jpurchaseId = env->NewStringUTF(purchaseId);
-    jstring jdeveloperPayload = env->NewStringUTF(developerPayload);
+    jstring jdeveloperPayload = developerPayload
+        ? env->NewStringUTF(developerPayload)
+        : nullptr;
 
     AndroidJavaObject instance;
     GetJavaPayInstance(env, &instance);
@@ -234,7 +267,7 @@ static int ConfirmTwoStepPurchase(lua_State* L)
     instance.Free(env);
 
     env->DeleteLocalRef(jpurchaseId);
-    env->DeleteLocalRef(jdeveloperPayload);
+    if (jdeveloperPayload) env->DeleteLocalRef(jdeveloperPayload);
 
     return 0;
 }
@@ -302,6 +335,8 @@ static dmExtension::Result AppInitializeExtension(dmExtension::AppParams* params
 static dmExtension::Result InitializeExtension(dmExtension::Params* params)
 {
     LuaInit(params->m_L);
+    RegisterGlobalRuStorePayEnums(params->m_L);
+    
     if (DEBUG) dmLogInfo("Registered %s Extension", MODULE_NAME);
     return dmExtension::RESULT_OK;
 }
